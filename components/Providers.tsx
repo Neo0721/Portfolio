@@ -1,7 +1,7 @@
 'use client'
 
 import Lenis from 'lenis'
-import { MotionConfig } from 'framer-motion'
+import { motion, MotionConfig, useScroll, useSpring } from 'framer-motion'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { Preloader } from './Preloader'
 import { Cursor } from './Cursor'
@@ -10,6 +10,12 @@ type Ctx = { loaded: boolean; lenis: Lenis | null }
 const SiteCtx = createContext<Ctx>({ loaded: false, lenis: null })
 
 export const useSite = () => useContext(SiteCtx)
+
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
+  return <motion.div style={{ scaleX }} className="fixed inset-x-0 top-0 z-[85] h-[2px] origin-left bg-accent" aria-hidden />
+}
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [loaded, setLoaded] = useState(false)
@@ -49,6 +55,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <SiteCtx.Provider value={{ loaded, lenis }}>
         <Preloader onDone={() => setLoaded(true)} />
         <Cursor />
+        <ScrollProgress />
         <div className="grain" aria-hidden />
         {children}
       </SiteCtx.Provider>

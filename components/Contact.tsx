@@ -1,34 +1,9 @@
 'use client'
 
-import { motion, useMotionValue, useSpring } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { site } from '@/lib/site'
 import { Eyebrow, FadeIn, RevealText } from './motion'
-
-/** Circular button that leans toward the pointer. */
-function Magnetic({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  const ref = useRef<HTMLButtonElement>(null)
-  const x = useSpring(useMotionValue(0), { stiffness: 200, damping: 15 })
-  const y = useSpring(useMotionValue(0), { stiffness: 200, damping: 15 })
-  return (
-    <motion.button
-      ref={ref}
-      style={{ x, y }}
-      onPointerMove={(e) => {
-        const r = ref.current!.getBoundingClientRect()
-        x.set((e.clientX - r.left - r.width / 2) * 0.35)
-        y.set((e.clientY - r.top - r.height / 2) * 0.35)
-      }}
-      onPointerLeave={() => {
-        x.set(0)
-        y.set(0)
-      }}
-      {...(props as object)}
-    >
-      {children}
-    </motion.button>
-  )
-}
+import { Magnetic, RollText } from './effects'
 
 const field =
   'peer w-full border-b border-line bg-transparent pt-6 pb-3 text-xl text-paper outline-none transition-colors placeholder-transparent focus:border-accent'
@@ -52,7 +27,7 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="relative overflow-hidden bg-ink px-6 py-32 md:px-10 md:py-48">
+    <section id="contact" className="relative overflow-hidden rounded-b-[2.5rem] bg-ink px-6 py-32 md:rounded-b-[4rem] md:px-10 md:py-48">
       <Eyebrow index="05">Contact</Eyebrow>
 
       <h2 className="mt-10 font-display text-[24vw] leading-[0.8] uppercase md:text-[15vw]">
@@ -80,11 +55,15 @@ export function Contact() {
               <label htmlFor="message" className={label}>Tell me about your project</label>
             </div>
             <div className="flex items-center gap-8 pt-4">
-              <Magnetic
-                type="submit"
-                className="flex h-36 w-36 items-center justify-center rounded-full bg-accent font-display text-lg tracking-[0.2em] text-ink uppercase transition-colors duration-500 hover:bg-paper md:h-44 md:w-44"
-              >
-                Send →
+              <Magnetic>
+                <button
+                  type="submit"
+                  data-cursor="Send"
+                  className="group relative flex h-36 w-36 items-center justify-center overflow-hidden rounded-full bg-accent font-display text-lg tracking-[0.2em] text-ink uppercase md:h-44 md:w-44"
+                >
+                  <span className="absolute inset-0 translate-y-full rounded-full bg-paper transition-transform duration-700 ease-[cubic-bezier(.76,0,.24,1)] group-hover:translate-y-0" />
+                  <span className="relative">Send →</span>
+                </button>
               </Magnetic>
               {sent && <p className="max-w-xs text-sm text-muted">Your email app should have opened with the message ready to send.</p>}
             </div>
@@ -95,7 +74,7 @@ export function Contact() {
           <div>
             <p className="font-display text-sm tracking-[0.3em] text-muted uppercase">Email</p>
             <a href={`mailto:${site.email}`} className="mt-3 block text-lg break-words transition-colors hover:text-accent lg:text-2xl">
-              {site.email}
+              <RollText>{site.email}</RollText>
             </a>
           </div>
           <div>
@@ -108,7 +87,7 @@ export function Contact() {
               {site.socials.slice(0, 2).map((s) => (
                 <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 text-2xl">
                   <span className="h-px w-0 bg-accent transition-all duration-500 group-hover:w-8" />
-                  {s.name}
+                  <RollText>{s.name}</RollText>
                 </a>
               ))}
             </div>

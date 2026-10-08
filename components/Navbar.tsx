@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-
 import { useEffect, useState } from 'react'
 import { nav, site } from '@/lib/site'
 import { EASE } from './motion'
+import { RollText, ScrambleText } from './effects'
 import { useSite } from './Providers'
 
 function MumbaiTime() {
@@ -58,7 +59,7 @@ export function Navbar() {
             Neo<span className={open ? '' : 'text-accent'}>.</span>
           </a>
           <div className="hidden items-center gap-10 md:flex">
-            <span>{site.location}</span>
+            <ScrambleText text={site.location} />
             <MumbaiTime />
           </div>
           <button
@@ -118,11 +119,13 @@ export function Navbar() {
               animate={{ opacity: 1, transition: { delay: 0.7 } }}
               exit={{ opacity: 0 }}
             >
-              <a href={`mailto:${site.email}`}>{site.email}</a>
+              <a href={`mailto:${site.email}`}>
+                <RollText hoverClass="text-paper">{site.email}</RollText>
+              </a>
               <div className="flex gap-6">
                 {site.socials.slice(0, 2).map((s) => (
                   <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer">
-                    {s.name}
+                    <RollText hoverClass="text-paper">{s.name}</RollText>
                   </a>
                 ))}
               </div>

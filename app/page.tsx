@@ -8,6 +8,7 @@ import { Experience } from '@/components/Experience'
 import { Contact } from '@/components/Contact'
 import { Footer } from '@/components/Footer'
 import { Marquee } from '@/components/Marquee'
+import { WorkIntro } from '@/components/WorkIntro'
 
 function Band({ words }: { words: string[] }) {
   return (
@@ -30,11 +31,12 @@ export default function Page() {
   return (
     <Providers>
       <Navbar />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <About />
         <Band words={['Open to internships', 'Backend systems', 'Full stack', 'Mumbai, India']} />
         <Skills />
+        <WorkIntro />
         <Projects />
         <Experience />
         <Contact />

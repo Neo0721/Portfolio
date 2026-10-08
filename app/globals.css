@@ -80,7 +80,7 @@ html.lenis body {
   animation: drift 18s ease-in-out infinite;
 }
 
-.text-outline {
+@utility text-outline {
   color: transparent;
   -webkit-text-stroke: 1px rgba(237, 235, 230, 0.35);
 }

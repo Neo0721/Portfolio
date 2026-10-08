@@ -31,9 +31,10 @@ export function Marquee({
   const factor = useTransform(smooth, [0, 1000], [0, 5], { clamp: false })
   const x = useTransform(baseX, (v) => `${wrap(-25, -50, v)}%`)
   const dir = useRef(1)
+  const hoverFactor = useSpring(1, { stiffness: 80, damping: 20 })
 
   useAnimationFrame((_, delta) => {
-    let move = dir.current * baseVelocity * (delta / 1000)
+    let move = dir.current * baseVelocity * hoverFactor.get() * (delta / 1000)
     if (factor.get() < 0) dir.current = -1
     else if (factor.get() > 0) dir.current = 1
     move += dir.current * move * factor.get()
@@ -41,7 +42,11 @@ export function Marquee({
   })
 
   return (
-    <div className={`flex overflow-hidden whitespace-nowrap ${className ?? ''}`}>
+    <div
+      className={`flex overflow-hidden whitespace-nowrap ${className ?? ''}`}
+      onPointerEnter={() => hoverFactor.set(0.15)}
+      onPointerLeave={() => hoverFactor.set(1)}
+    >
       <motion.div className="flex flex-nowrap" style={{ x }}>
         {[0, 1, 2, 3].map((i) => (
           <span key={i} className="flex shrink-0 items-center" aria-hidden={i > 0}>

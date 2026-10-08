@@ -3,7 +3,7 @@
 import { motion, useScroll, useSpring } from 'framer-motion'
 import { useRef } from 'react'
 import { timeline } from '@/lib/site'
-import { FadeIn, RevealText } from './motion'
+import { Eyebrow, FadeIn, RevealText } from './motion'
 
 export function Experience() {
   const list = useRef<HTMLOListElement>(null)
@@ -15,13 +15,11 @@ export function Experience() {
       <div className="grid gap-20 md:grid-cols-12">
         <div className="md:col-span-5">
           <div className="md:sticky md:top-32">
-            <FadeIn y={12} className="flex items-center gap-4 font-display text-sm tracking-[0.3em] text-ink/50 uppercase">
-              <span className="text-accent">(04)</span>
-              <span className="h-px w-10 bg-ink/20" />
+            <Eyebrow index="04" light>
               Journey
-            </FadeIn>
+            </Eyebrow>
             <h2 className="mt-10 font-display text-[18vw] leading-[0.82] uppercase md:text-[8vw]">
-              <RevealText text="My journey" />
+              <RevealText text="My journey" hover />
               <br />
               <span className="font-serif tracking-tight normal-case italic text-accent">
                 <RevealText text="so far" delay={0.15} />
@@ -36,10 +34,12 @@ export function Experience() {
 
           {timeline.map((item) => (
             <li key={item.title} className="group relative pb-24 pl-10 last:pb-0 md:pl-16">
-              <span className="absolute top-3 -left-[5px] h-[11px] w-[11px] rounded-full border-2 border-paper bg-ink transition-colors duration-500 group-hover:bg-accent" />
+              <span className="absolute top-3 -left-[5px] h-[11px] w-[11px] rounded-full border-2 border-paper bg-ink transition-all duration-500 group-hover:scale-[2] group-hover:bg-accent" />
               <FadeIn>
                 <p className="font-serif text-2xl text-accent italic">{item.year}</p>
-                <h3 className="mt-3 font-display text-5xl leading-[0.9] uppercase md:text-6xl">{item.title}</h3>
+                <h3 className="mt-3 font-display text-5xl leading-[0.9] uppercase transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-4 md:text-6xl">
+                  {item.title}
+                </h3>
                 <p className="mt-2 font-display text-lg tracking-[0.25em] text-ink/50 uppercase">{item.org}</p>
                 <p className="mt-6 max-w-md text-lg text-ink/70">{item.text}</p>
               </FadeIn>
